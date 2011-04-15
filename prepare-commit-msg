@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+#
+ASSET_FORMAT = /[a-z]{1,3}-\d{5,}/i
+
+branch_name = `git symbolic-ref HEAD`[/refs\/heads\/(.+)/, 1]
+asset = branch_name[ASSET_FORMAT]
+
+exit unless asset # we're not on a branch for a story, defect, etc.
+
+message_file = ARGV[0]
+message = File.read(message_file)
+message_sans_comments = message[/^[^#][.]*/]
+
+exit if message_sans_comments.include? asset
+
+File.open(message_file, 'w') do |f|
+  f.puts ''
+  f.puts ''
+  f.puts "VersionOne: #{asset}"
+  f.puts message.strip
+end
+
