@@ -22,7 +22,7 @@ Have some hooks you'd like to see? Let us know. Or better yet, fork, add your ho
 
 ## Installing
 Currently you need to download both the [`prepare-commit-message`](https://github.com/versionone/git-hooks/blob/master/prepare-commit-msg)
-hook and supporting [`git_wrapper.rb`](https://github.com/versionone/git-hooks/blob/master/git_wrapper.rb) file, and put them in the 
+hook and supporting [`lib/gittr.rb`](https://github.com/versionone/git-hooks/blob/master/lib.gittr.rb) file, and put them in the 
 `.git/hooks/` directory in each repository you want to use the hooks with. We'll make this a whole lot easier, real soon!
 
 ## License
