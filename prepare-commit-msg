@@ -7,11 +7,12 @@ asset = commit.asset_for_branch
 exit unless asset
 exit if commit.references? asset
 
-File.open(ARGV[0], 'w') do |f|
-  f.write commit.message.strip
-  f.puts ''
-  f.puts ''
-  f.puts "VersionOne: #{asset}"
-  f.write commit.extra_comments
-end
+msg = <<COMMIT_MSG
+#{commit.message.strip}
+
+VersionOne: #{asset}
+#{commit.extra_comments.strip}
+COMMIT_MSG
+
+File.open(ARGV[0], 'w') { |f| f.write msg }
 
