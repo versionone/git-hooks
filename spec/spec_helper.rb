@@ -1,7 +1,7 @@
-module GitWrapperHelpers
+module GittrHelpers
   
   def commit_on_branch(branch)
-    commit = GitCommit.new
+    commit = Gittr::Commit.new
     commit.stub!(:branch).and_return(branch)
     commit
   end

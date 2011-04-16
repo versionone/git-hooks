@@ -2,7 +2,7 @@ require File.expand_path('../../git_wrapper', __FILE__)
 require 'spec_helper'
 
 describe "prepare-commit-msg Git Hook" do
-  include GitWrapperHelpers
+  include GittrHelpers
 
   describe "branch doesn't have asset number" do
     [ 'master',

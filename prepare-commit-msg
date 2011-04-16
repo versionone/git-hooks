@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 require File.expand_path('../git_wrapper', __FILE__)
-commit = GitCommit.new
+commit = Gittr::Commit.new
 asset = commit.asset_for_branch
 
 exit unless asset
