@@ -2,14 +2,12 @@
 So you can be lazy and make the computer do the boring stuff!
 
 ## Current Hooks
-
-- [prepare-commit-message](http://www.kernel.org/pub/software/scm/git/docs/githooks.html#_prepare_commit_msg): 
-  when you `git commit`, this hook will inspect the current branch name looking for a [VersionOne ID](#versionone-id). 
-  If it finds one, I'll will append it to the commit message for you, magically! You'll have an opportunity to edit 
-  or remove it if you like (assuming you did't do `git commit -m "..."`).
-  
-  Also, if you've already mentioned the asset in your commit message, the hook leaves things exactly as they are.
-
+-   [prepare-commit-message](http://www.kernel.org/pub/software/scm/git/docs/githooks.html#_prepare_commit_msg): 
+    when you `git commit`, this hook will inspect the current branch name looking for a [VersionOne ID](#versionone-id). 
+    If it finds one, I'll will append it to the commit message for you, magically! You'll have an opportunity to edit 
+    or remove it if you like (assuming you did't do `git commit -m "..."`).
+    
+    Also, if you've already mentioned the asset in your commit message, the hook leaves things exactly as they are.
 
 Have some hooks you'd like to see? Let us know. Or better yet, fork, add your hook, and send us a Pull Request!
 
