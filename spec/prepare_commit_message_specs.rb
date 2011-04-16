@@ -98,19 +98,24 @@ some commit for S-01234
   end
 
   describe "referencing an asset" do
-    before(:each) do
-      File.stub!(:readlines).and_return(["# some extra stuff"])
-      @commit = commit_on_branch("S-98765")
-      @commit_message = @commit.reference("S-98765")
-    end
-
-    it "prepare commit message" do
-      @commit_message.should == <<-COMMIT_MSG
+      fake_message = <<-COMMIT_MSG
 
 
 VersionOne: S-98765
 # some extra stuff
-                                  COMMIT_MSG
+                       COMMIT_MSG
+
+    before(:each) do
+      @fake_file = FakeFile.new
+      File.stub!(:readlines).and_return(["# some extra stuff"])
+      File.stub!(:open).and_yield(@fake_file)
+      commit = commit_on_branch("S-98765")
+      @commit_message = commit.reference("S-98765")
+    end
+
+    it "prepare commit message" do
+      @commit_message.should == fake_message
+      @fake_file.content.should == fake_message
     end
   end
 

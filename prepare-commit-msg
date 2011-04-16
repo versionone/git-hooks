@@ -7,5 +7,5 @@ asset = commit.asset_for_branch
 exit unless asset
 exit if commit.references? asset
 
-File.open(ARGV[0], 'w') { |f| f.write commit.reference(asset) }
+commit.reference(asset)
 

@@ -17,12 +17,8 @@ class GitCommit
   end
 
   def reference(asset)
-    return <<-COMMIT_MSG
-#{message.strip}
-
-VersionOne: #{asset}
-#{extra_comments.strip}
-              COMMIT_MSG
+    new_message = format_message(asset)
+    write_message(new_message)
   end
 
   private
@@ -44,5 +40,19 @@ VersionOne: #{asset}
 
     def extract_message(all_lines)
       all_lines.take_while { |line| !line.start_with?("#") }
+    end
+
+    def write_message(content)
+      File.open(@message_file, 'w') { |f| f.write(content) }
+      content
+    end
+
+    def format_message(asset)
+      return <<-COMMIT_MSG
+#{message.strip}
+
+VersionOne: #{asset}
+#{extra_comments.strip}
+                COMMIT_MSG
     end
 end
