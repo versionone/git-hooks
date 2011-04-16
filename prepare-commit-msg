@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # NOTE: be sure this file is executable: `chmod +x`
 
-require File.expand_path('../gittr', __FILE__)
+require File.expand_path('../lib/gittr', __FILE__)
 
 commit = Gittr::Commit.new
 asset = commit.asset_for_branch
