@@ -13,6 +13,7 @@ class GitCommit
   end
 
   private
+
     def branch
       `git symbolic-ref HEAD`[/refs\/heads\/(.+)/, 1]
     end
@@ -24,8 +25,8 @@ class GitCommit
     def parse_message
       lines = read_lines(@message_file)
       real_message = extract_message(lines)
-      @extra_comments = lines.slice(real_message.length..-1).join("\n")
-      @message = real_message.join("\n")
+      @extra_comments = lines.slice(real_message.length..-1).join
+      @message = real_message.join
     end
 
     def extract_message(all_lines)

@@ -86,6 +86,10 @@ MSG
         @commit.message.should include("S-01234")
       end
 
+      it "extra comments captured" do
+        @commit.extra_comments.should include("asset name S-01234 embedded")
+      end
+
     end
   end
 

@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
 require File.expand_path('../git_wrapper', __FILE__)
-
 commit = GitCommit.new
 asset = commit.asset_for_branch
 
@@ -9,10 +8,10 @@ exit unless asset
 exit if commit.message.include? asset
 
 File.open(ARGV[0], 'w') do |f|
-  f.puts commit.message.strip
+  f.write commit.message.strip
   f.puts ''
   f.puts ''
   f.puts "VersionOne: #{asset}"
-  f.puts commit.extra_comments
+  f.write commit.extra_comments
 end
 
