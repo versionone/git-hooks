@@ -5,17 +5,14 @@ require File.expand_path('../git_wrapper', __FILE__)
 commit = GitCommit.new
 asset = commit.asset_for_branch
 
-exit unless asset # we're not on a branch for a story, defect, etc.
-
-message = commit.message
-message_sans_comments = message[/^[^#][.]*/]
-
-exit if message_sans_comments.include? asset
+exit unless asset
+exit if commit.message.include? asset
 
 File.open(ARGV[0], 'w') do |f|
+  f.puts commit.message.strip
   f.puts ''
   f.puts ''
   f.puts "VersionOne: #{asset}"
-  f.puts message.strip
+  f.puts commit.extra_comments
 end
 
