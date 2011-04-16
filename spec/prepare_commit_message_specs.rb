@@ -49,12 +49,11 @@ describe "prepare-commit-msg Git Hook" do
 
     describe "with the asset name in a comment" do
       before(:each) do
-        fake_message = <<MSG
-
+        fake_message = <<-COMMIT_MSG
 # this is a commit message
 # with the asset name S-01234 embedded
 # right in it. weird!
-MSG
+                          COMMIT_MSG
         File.stub!(:readlines).and_return(fake_message.split("\n"))
         @commit = commit_on_branch("foo_S-01234")
       end
@@ -75,13 +74,13 @@ MSG
 
     describe "with the asset name" do
       before(:each) do
-        fake_message = <<MSG
+        fake_message = <<-COMMIT_MSG
 some commit for S-01234
 
 # this is a commit message
 # with the asset name S-01234 embedded
 # right in it. weird!
-MSG
+                          COMMIT_MSG
         File.stub!(:readlines).and_return(fake_message.split("\n"))
         @commit = commit_on_branch("foo_S-01234")
       end
