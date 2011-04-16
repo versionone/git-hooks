@@ -1,4 +1,3 @@
-
 class GitCommit
   ASSET_FORMAT = /[a-z]{1,3}-\d{5,}/i
   attr_reader :message, :extra_comments
@@ -10,6 +9,10 @@ class GitCommit
 
   def asset_for_branch
     @asset ||= branch[ASSET_FORMAT]
+  end
+
+  def references?(asset)
+    message.include? asset
   end
 
   private

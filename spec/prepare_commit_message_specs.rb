@@ -59,6 +59,10 @@ MSG
         @commit = commit_on_branch("foo_S-01234")
       end
 
+      it "doesn't already references asset" do
+        @commit.references?("S-01234").should be_false
+      end
+
       it "message doesn't include asset name" do
         @commit.message.should_not include("S-01234")
       end
@@ -80,6 +84,10 @@ some commit for S-01234
 MSG
         File.stub!(:readlines).and_return(fake_message.split("\n"))
         @commit = commit_on_branch("foo_S-01234")
+      end
+      
+      it "already references asset" do
+        @commit.references?("S-01234").should be_true
       end
 
       it "message does include asset name" do
