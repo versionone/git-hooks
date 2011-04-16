@@ -35,13 +35,10 @@ describe "prepare-commit-msg Git Hook" do
         commit.asset_for_branch.should == branch
       end
 
-    end
-  end
-
-  describe "branch has long asset number" do
-    it "finds the asset" do
-      commit = commit_on_branch("big-long_ENV-123456789_or_more")
-      commit.asset_for_branch.should == "ENV-123456789"
+      it "finds long asset numers" do
+        commit = commit_on_branch("big-long_ENV-123456789_or_more")
+        commit.asset_for_branch.should == "ENV-123456789"
+      end
     end
   end
 
@@ -97,6 +94,23 @@ some commit for S-01234
         @commit.extra_comments.should include("asset name S-01234 embedded")
       end
 
+    end
+  end
+
+  describe "referencing an asset" do
+    before(:each) do
+      File.stub!(:readlines).and_return(["# some extra stuff"])
+      @commit = commit_on_branch("S-98765")
+      @commit_message = @commit.reference("S-98765")
+    end
+
+    it "prepare commit message" do
+      @commit_message.should == <<-COMMIT_MSG
+
+
+VersionOne: S-98765
+# some extra stuff
+                                  COMMIT_MSG
     end
   end
 

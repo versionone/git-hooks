@@ -1,6 +1,7 @@
 class GitCommit
-  ASSET_FORMAT = /[a-z]{1,3}-\d{5,}/i
   attr_reader :message, :extra_comments
+
+  ASSET_FORMAT = /[a-z]{1,3}-\d{5,}/i
 
   def initialize(file = ARGV[0])
     @message_file = file
@@ -13,6 +14,15 @@ class GitCommit
 
   def references?(asset)
     message.include? asset
+  end
+
+  def reference(asset)
+    return <<-COMMIT_MSG
+#{message.strip}
+
+VersionOne: #{asset}
+#{extra_comments.strip}
+              COMMIT_MSG
   end
 
   private
