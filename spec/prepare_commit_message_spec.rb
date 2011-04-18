@@ -98,15 +98,15 @@ some commit for S-01234
   end
 
   describe "referencing an asset" do
-      fake_message = <<-COMMIT_MSG
+    fake_message = <<-COMMIT_MSG
 
 
 VersionOne: S-98765
 # some extra stuff
-                       COMMIT_MSG
+                     COMMIT_MSG
 
     before(:each) do
-      @fake_file = FakeFile.new
+      @fake_file = GittrHelpers::FakeFile.new
       File.stub!(:readlines).and_return(["# some extra stuff"])
       File.stub!(:open).and_yield(@fake_file)
       commit = commit_on_branch("S-98765")
