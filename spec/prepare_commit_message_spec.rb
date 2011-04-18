@@ -1,5 +1,5 @@
-require File.expand_path('../../lib/gittr', __FILE__)
 require 'spec_helper'
+require File.expand_path('../../lib/gittr', __FILE__)
 
 describe "prepare-commit-msg Git Hook" do
   include GittrHelpers
