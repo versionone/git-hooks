@@ -25,8 +25,9 @@ Currently you need to download both the [`prepare-commit-message`](https://githu
 hook and supporting [`lib/`](https://github.com/versionone/git-hooks/blob/master/lib/) directory, putting them in the 
 `.git/hooks/` directory of each repository you want to use the hooks with.
 
-If you trust us, in your shell `cd your/git/repo/root` and execute the following `(cd .git/hooks; curl -O "https://github.com/versionone/git-hooks/raw/master/prepare-commit-msg"; mkdir -p lib; cd lib; curl -O "https:
-//github.com/versionone/git-hooks/raw/master/lib/gittr.rb")`
+If you trust us, in your shell `cd your/git/repo/root` and execute the following:
+
+  (cd .git/hooks; curl -O "https://github.com/versionone/git-hooks/raw/master/prepare-commit-msg"; mkdir -p lib; cd lib; curl -O "https://github.com/versionone/git-hooks/raw/master/lib/gittr.rb")
 
 ## License
 VersionOne Git Hooks are covered under the MIT License. See [LICENSE](https://github.com/versionone/git-hooks/blob/master/LICENSE) for more information.
