@@ -27,7 +27,7 @@ hook and supporting [`lib/`](https://github.com/versionone/git-hooks/blob/master
 
 If you trust us, in your shell `cd your/git/repo/root` and execute the following:
 
-    (cd .git/hooks; curl -LsSfO "https://github.com/versionone/git-hooks/raw/master/prepare-commit-msg"; mkdir -p lib; cd lib; curl -LsSfO "https://github.com/versionone/git-hooks/raw/master/lib/gittr.rb")
+    (cd .git/hooks && curl -LsSfO "https://github.com/versionone/git-hooks/raw/master/prepare-commit-msg" && mkdir -p lib && cd lib && curl -LsSfO "https://github.com/versionone/git-hooks/raw/master/lib/gittr.rb")
 
 ## License
 VersionOne Git Hooks are covered under the MIT License. See [LICENSE](https://github.com/versionone/git-hooks/blob/master/LICENSE) for more information.
