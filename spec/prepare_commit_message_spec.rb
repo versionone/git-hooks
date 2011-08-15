@@ -119,4 +119,13 @@ VersionOne: S-98765
     end
   end
 
+  describe "not on a branch (HEAD doesn't exist)" do
+    it "not have an asset" do
+      commit = Gittr::Commit.new
+      commit.stub('`').and_return('')
+
+      commit.asset_for_branch.should_not be
+    end
+  end
+
 end

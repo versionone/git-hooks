@@ -25,7 +25,8 @@ module Gittr
     private
 
       def branch
-        `git symbolic-ref HEAD`[/refs\/heads\/(.+)/, 1]
+        branch_path = `git symbolic-ref HEAD`
+        branch_path[/refs\/heads\/(.+)/, 1] || ''
       end
 
       def read_lines(file)
