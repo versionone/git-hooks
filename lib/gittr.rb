@@ -51,9 +51,8 @@ module Gittr
 
       def format_message(asset)
         return <<-COMMIT_MSG
-#{message.strip}
+#{asset} #{message.strip}
 
-VersionOne: #{asset}
 #{extra_comments.strip}
                   COMMIT_MSG
       end
