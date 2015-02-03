@@ -1,0 +1,85 @@
+#!/usr/bin/env node
+
+/*
+	Parse the current branch name for a VersionOne asset number
+	and prepend the commit message.
+*/
+
+var Promise = require('./promiscuous')
+var fs = require('fs')
+var exec = require('child_process').exec
+
+function readFilePromise(filename) {
+	return new Promise(function(resolve, reject) {
+		fs.readFile(filename, {encoding: 'utf8'}, function(err, content) { 
+			if (err) reject(err)
+			else resolve({ filename: filename, content: content }) 
+		})
+	})
+}
+
+function parse(commit) {
+	var lines = commit.content.split('\n')
+	var message = [], comments = []
+	lines.forEach(function(line) {
+		(line[0] === '#'? comments: message).push(line)
+	})
+	commit.message = message.join('\n')
+	commit.comments = comments.join('\n')
+	return commit
+}
+
+function execPromise(command) {
+	return new Promise(function(resolve, reject) {
+		exec(command, function(err, data) { 
+			if (err) reject(err) 
+			else resolve(data) 
+		})
+	})
+}
+
+function assetForBranch(symbolicRef) {
+	var match = assetFormat.exec(symbolicRef)
+	return match? match[0]: ''
+}
+
+function finish(commit, asset) {
+	if (!asset) return false
+	if (references(commit.message, asset)) return false
+	return reference(commit, asset)
+}
+
+function references(message, asset) {
+	return message.indexOf(asset) >= 0
+}
+
+function reference(commit, asset) {
+	var newMessage = formatMessage(commit, asset)
+	return writeMessage(newMessage, commit.filename)
+}
+
+function formatMessage(commit, asset) {
+	return asset + ' ' + commit.message.trim() + '\n\n' + commit.comments.trim()
+}
+
+function writeMessage(content, filename) {
+	return new Promise(function(resolve, reject) {
+		fs.writeFile(filename, content, function(err) {
+			if (err) reject(err)
+			else resolve(true)
+		})
+	})
+}
+
+var assetFormat = /[a-zA-Z]{1,3}-\d{5,}/
+var messageFilename = process.argv[2]
+var symbolicRefCommand = 'git symbolic-ref HEAD'
+
+var commit = readFilePromise(messageFilename)
+	.then(parse)
+var asset = execPromise(symbolicRefCommand)
+	.then(assetForBranch)
+
+Promise.all([commit, asset])
+	.then(Function.prototype.apply.bind(finish, null))
+	.catch(function(err) { throw err })
