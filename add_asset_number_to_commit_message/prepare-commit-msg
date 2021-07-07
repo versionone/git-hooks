@@ -5,17 +5,17 @@
 	and prepend the commit message.
 */
 
-var fs = require('fs').promises
-var exec = require('child_process').exec
+const fs = require('fs').promises
+const exec = require('child_process').exec
 
 async function readFilePromise(filename) {
-	var content = await fs.readFile(filename, {encoding: 'utf8'})
+	const content = await fs.readFile(filename, {encoding: 'utf8'})
 	return { filename: filename, content: content }
 }
 
 function parse(commit) {
-	var lines = commit.content.split('\n')
-	var message = [], comments = []
+	const lines = commit.content.split('\n')
+	const message = [], comments = []
 	lines.forEach(function(line) {
 		(line[0] === '#'? comments: message).push(line)
 	})
@@ -34,7 +34,7 @@ function execPromise(command) {
 }
 
 function assetForBranch(symbolicRef) {
-	var match = assetFormat.exec(symbolicRef)
+	const match = assetFormat.exec(symbolicRef)
 	return match? match[0]: ''
 }
 
@@ -49,7 +49,7 @@ function references(message, asset) {
 }
 
 function reference(commit, asset) {
-	var newMessage = formatMessage(commit, asset)
+	const newMessage = formatMessage(commit, asset)
 	return writeMessage(newMessage, commit.filename)
 }
 
@@ -62,13 +62,13 @@ async function writeMessage(content, filename) {
 	return true
 }
 
-var assetFormat = /[a-zA-Z]{1,3}-\d{5,}/
-var messageFilename = process.argv[2]
-var symbolicRefCommand = 'git symbolic-ref HEAD'
+const assetFormat = /[a-zA-Z]{1,3}-\d{5,}/
+const messageFilename = process.argv[2]
+const symbolicRefCommand = 'git symbolic-ref HEAD'
 
-var commit = readFilePromise(messageFilename)
+const commit = readFilePromise(messageFilename)
 	.then(parse)
-var asset = execPromise(symbolicRefCommand)
+const asset = execPromise(symbolicRefCommand)
 	.then(assetForBranch)
 
 Promise.all([commit, asset])
