@@ -11,12 +11,12 @@ Adds a prepare-commit-message hook to prepend with [VersionOne ID](#versionone-i
 Requires node.js.
 
 Currently you need to download both the [`prepare-commit-message`](https://github.com/versionone/git-hooks/blob/master/add_asset_number_to_commit_message/prepare-commit-msg)
-hook and supporting [`promiscuous.js`](https://github.com/versionone/git-hooks/blob/master/add_asset_number_to_commit_message/promiscuous.js) directory, putting them in the 
+hook, place into the 
 `.git/hooks/` directory of each repository you want to use the hooks with.
 
 If you trust us, in your shell `cd your/git/repo/root` and execute the following:
 
-    (cd .git/hooks && curl -LsSfO "https://github.com/versionone/git-hooks/raw/master/add_asset_number_to_commit_message/prepare-commit-msg" && curl -LsSfO "https://github.com/versionone/git-hooks/raw/master/add_asset_number_to_commit_message/promiscuous.js")
+    (cd .git/hooks && curl -LsSfO "https://github.com/versionone/git-hooks/raw/master/add_asset_number_to_commit_message/prepare-commit-msg")
 
     
 ### VersionOne ID
