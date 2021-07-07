@@ -16,7 +16,7 @@ hook and supporting [`promiscuous.js`](https://github.com/versionone/git-hooks/b
 
 If you trust us, in your shell `cd your/git/repo/root` and execute the following:
 
-    (cd .git/hooks && curl -LsSfO "https://github.com/versionone/git-hooks/raw/master/add_asset_number_to_commit_message/prepare-commit-msg" && mkdir -p lib && cd lib && curl -LsSfO "https://github.com/versionone/git-hooks/raw/master/add_asset_number_to_commit_message/promiscuous.js")
+    (cd .git/hooks && curl -LsSfO "https://github.com/versionone/git-hooks/raw/master/add_asset_number_to_commit_message/prepare-commit-msg" && curl -LsSfO "https://github.com/versionone/git-hooks/raw/master/add_asset_number_to_commit_message/promiscuous.js")
 
     
 ### VersionOne ID
