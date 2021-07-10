@@ -3,7 +3,7 @@
 
 So you can be lazy and make the computer do the boring stuff!
 
-Adds a prepare-commit-message hook to prepend with [VersionOne ID](#versionone-id).
+Adds a prepare-commit-message hook to prepend commit messages with [VersionOne ID](#versionone-id).
 
 
 ## Installation
