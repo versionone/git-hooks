@@ -28,11 +28,7 @@ const references = (message, asset) =>message.indexOf(asset) >= 0
 
 const formatMessage = (asset, message, comments) => `[${asset}] ${message.trim()}\n\n${comments.trim()}`
 
-async function main(messageFilename, type) {
-	if (type === 'message') {
-		// during a rebase operation, `git symbolic-ref HEAD` will fail
-		return;
-	}
+async function main(messageFilename) {
 	const [
 		{ stdout: symbolicRef },
 		originalMessage,
