@@ -24,21 +24,34 @@ const assetForBranch = symbolicRef => matchText(
 	assetFormat.exec(symbolicRef)
 )
 
+async function tryGetAssetFromCurrentBranch() {
+	try {
+		const { stdout: symbolicRef } = await execPromise('git symbolic-ref HEAD')
+		return assetForBranch(symbolicRef)
+	}
+	catch (e) {
+		// git symbolic-ref might fail, don't hold up the commit
+		return ''
+	}
+}
+
+async function getMessageAndComments(messageFilename) {
+	const originalMessage = await readFile(messageFilename, { encoding: 'utf8' })
+	return parse(originalMessage)
+}
+
 const references = (message, asset) =>message.indexOf(asset) >= 0
 
 const formatMessage = (asset, message, comments) => `[${asset}] ${message.trim()}\n\n${comments.trim()}`
 
 async function main(messageFilename) {
 	const [
-		{ stdout: symbolicRef },
-		originalMessage,
+		asset,
+		{ message, comments },
 	] = await Promise.all([
-		execPromise('git symbolic-ref HEAD'),
-		readFile(messageFilename, { encoding: 'utf8' }),
+		tryGetAssetFromCurrentBranch(),
+		getMessageAndComments(messageFilename),
 	])
-
-	const asset = assetForBranch(symbolicRef)
-	const { message, comments } = parse(originalMessage)
 
 	if (asset && !references(message, asset)) {
 		const newMessage = formatMessage(asset, message, comments)
