@@ -25,14 +25,34 @@ const assetForBranch = symbolicRef => matchText(
 )
 
 async function tryGetAssetFromCurrentBranch() {
+	const symbolicRef = await tryGetCurrentBranchName()
+	return assetForBranch(symbolicRef)
+}
+
+async function tryGetCurrentBranchName() {
 	try {
 		const { stdout: symbolicRef } = await execPromise('git symbolic-ref HEAD')
-		return assetForBranch(symbolicRef)
+		return symbolicRef
 	}
 	catch (e) {
 		// git symbolic-ref might fail, don't hold up the commit
-		return ''
 	}
+
+	try {
+		const { stdout: branchList } = await execPromise('git branch --list --no-color')
+		const asterisk = branchList.indexOf('*')
+		if (asterisk >= 0) {
+			let newline = branchList.indexOf('\n', asterisk + 1)
+			if (newline < 0)
+				newline = branchList.length
+			return branchList.slice(asterisk + 1, newline)
+		}
+	}
+	catch (e) {
+		// don't hold up the commit
+	}
+
+	return ''
 }
 
 async function getMessageAndComments(messageFilename) {
@@ -40,7 +60,7 @@ async function getMessageAndComments(messageFilename) {
 	return parse(originalMessage)
 }
 
-const references = (message, asset) =>message.indexOf(asset) >= 0
+const references = (message, asset) => message.indexOf(asset) >= 0
 
 const formatMessage = (asset, message, comments) => `[${asset}] ${message.trim()}\n\n${comments.trim()}`
 
