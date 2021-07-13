@@ -5,7 +5,7 @@
 	and prepend the commit message.
 */
 
-const { readFile, writeFile } = require('fs').promises
+const { readFile, writeFile, access } = require('fs').promises
 const { exec } = require('child_process')
 const util = require('util')
 const execPromise = util.promisify(exec)
@@ -28,15 +28,37 @@ const references = (message, asset) =>message.indexOf(asset) >= 0
 
 const formatMessage = (asset, message, comments) => `[${asset}] ${message.trim()}\n\n${comments.trim()}`
 
-async function main(messageFilename) {
+const exists = (path) => access(path).then(() => true).catch(() => false)
+
+const getBranchNameEvenIfInteractiveRebase = async () => {
+	try {
+		const { stdout: branchName } = await execPromise('git symbolic-ref HEAD')
+		return branchName
+	} catch (e) {
+		// maybe we have head-name file in rebase-merge or rebase-apply
+		const rebaseSteps = ['rebase-merge', 'rebase-apply'];
+		for (const rebaseStep of rebaseSteps) {
+			const { stdout: rebasePath } = await execPromise(`git rev-parse --git-path ${rebaseStep}`);
+			const rebasePathExists = await exists(rebasePath);
+			if (rebasePathExists) {
+				const headName = await readFile(`${rebasePath}/head-name`, { encoding: 'utf8' });
+				return headName;
+			}
+		}
+		// git 2.18 gives us an out
+		const { stdout: rebasingLine } = await execPromise('git branch --list | head -1');
+		return rebasingLine;
+	}
+}
+
+async function main(messageFilename, type) {	
 	const [
-		{ stdout: symbolicRef },
+		symbolicRef,
 		originalMessage,
 	] = await Promise.all([
-		execPromise('git symbolic-ref HEAD'),
+		getBranchNameEvenIfInteractiveRebase(),
 		readFile(messageFilename, { encoding: 'utf8' }),
 	])
-
 	const asset = assetForBranch(symbolicRef)
 	const { message, comments } = parse(originalMessage)
 
