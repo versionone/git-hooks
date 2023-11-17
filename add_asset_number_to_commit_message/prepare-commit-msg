@@ -62,7 +62,7 @@ async function getMessageAndComments(messageFilename) {
 
 const references = (message, asset) => message.indexOf(asset) >= 0
 
-const formatMessage = (token, message, comments) => `[${token}] ${message.trim()}\n\n${comments.trim()}`
+const formatMessage = (token, message, comments) => `${token} ${message.trim()}\n\n${comments.trim()}`
 
 async function main(messageFilename) {
 	const [
