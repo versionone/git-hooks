@@ -16,7 +16,7 @@ hook, place into the
 
 If you trust us, in your shell `cd your/git/repo/root` and execute the following:
 
-    (cd .git/hooks && curl -LsSfO "https://github.com/versionone/git-hooks/raw/master/add_asset_number_to_commit_message/prepare-commit-msg")
+    (cd .git/hooks && curl -LsSfO "https://github.com/versionone/git-hooks/raw/master/add_asset_number_to_commit_message/prepare-commit-msg" && cd ../..)
 
     
 ### VersionOne ID
